@@ -1,0 +1,16 @@
+---
+- hosts: all
+  gather_facts: true  # Собираем факты о системе
+  tasks:
+    - name: 
+      debug:
+        msg: |
+          Сетевые интерфейсы:
+          {% for interface in ansible_interfaces %}
+            {{ interface }}:
+              MAC-адрес: {{ ansible_default_ipv4.macaddress is defined and ansible_default_ipv4.macaddress }}
+              IP-адрес: {{ ansible_default_ipv4.address }}
+              Маска подсети: {{ ansible_default_ipv4.netmask }}
+              Шлюз: {{ ansible_default_ipv4.gateway }}
+              DNS-серверы: {{ ansible_dns.nameservers }}
+          {% endfor %}
